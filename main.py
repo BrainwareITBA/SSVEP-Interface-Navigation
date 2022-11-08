@@ -28,6 +28,11 @@ def main(output_file):
     rect4 = Rectangle(RED, (window_w/2+(btn_w/2+gap), window_h/2-btn_h/2, btn_w, btn_h), current_time, delays[3])
     rect5 = Rectangle(RED, (window_w/2-btn_w/2, window_h/2+(btn_h/2+gap), btn_w, btn_h), current_time, delays[4])
 
+    font = pygame.font.SysFont('arial', 20)
+    text = font.render('ESC to quit, SPACE for start/stop timestamps', True, WHITE)
+    textRect = text.get_rect()
+    textRect.bottomright = (window_w-10, window_h-10)
+
     count = 0
     running = True
     while running:
@@ -50,6 +55,7 @@ def main(output_file):
         rect4.update(current_time)
         rect5.update(current_time)
         window.fill(BLACK)
+        window.blit(text, textRect)
         rect1.draw(window)
         rect2.draw(window)
         rect3.draw(window)
