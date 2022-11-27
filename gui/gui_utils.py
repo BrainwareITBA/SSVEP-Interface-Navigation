@@ -31,12 +31,17 @@ def draw_game_grid(window: pygame.Surface, line_width: int, margin: int):
     window_h = window.get_height()
     game_size = window_h - (2 * margin)
     # Vertical lines
-    pygame.draw.line(window, WHITE, (margin + game_size // 3, margin),
-                     (margin + game_size // 3, window_h - margin), line_width)
-    pygame.draw.line(window, WHITE, (margin + (game_size // 3) * 2, margin),
-                     (margin + (game_size // 3) * 2, window_h - margin), line_width)
+    pygame.draw.line(window, WHITE, (margin + game_size // 3, margin), (margin + game_size // 3, window_h - margin), line_width)
+    pygame.draw.line(window, WHITE, (margin + (game_size // 3) * 2, margin), (margin + (game_size // 3) * 2, window_h - margin), line_width)
     # Horizontal lines
-    pygame.draw.line(window, WHITE, (margin, margin + game_size // 3), (window_h - margin, margin + game_size // 3),
-                     line_width)
-    pygame.draw.line(window, WHITE, (margin, margin + (game_size // 3) * 2),
-                     (window_h - margin, margin + (game_size // 3) * 2), line_width)
+    pygame.draw.line(window, WHITE, (margin, margin + game_size // 3), (window_h - margin, margin + game_size // 3), line_width)
+    pygame.draw.line(window, WHITE, (margin, margin + (game_size // 3) * 2), (window_h - margin, margin + (game_size // 3) * 2), line_width)
+
+
+def draw_board(board: list[list[int]], window: pygame.Surface, x_img: pygame.Surface, o_img: pygame.Surface, margin: int):
+    window_h = window.get_height()
+    game_size = window_h - (2 * margin)
+    for y in range(3):
+        for x in range(3):
+            picker = lambda xx,oo: xx if board[y][x] == -1 else oo if board[y][x] == +1 else pygame.Surface((0, 0))
+            window.blit(picker(x_img, o_img), (x * (game_size // 3) + margin + (game_size // 12 + 5), y * (game_size // 3) + margin + (game_size // 12 + 5)))

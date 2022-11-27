@@ -25,13 +25,21 @@ def main(output_file):
     margin = 50
     draw_game_grid(window, line_width, margin)
 
+    o_img, x_img = pygame.image.load('./resources/o.png'),pygame.image.load('./resources/x.png')
+
+    row = 0
+    col = 0
+    # board = [[None, None, None], [None, None, None], [None, None, None]]
+    board = [[1, None, -1], [1, -1, None], [-1, 1, None]]
+    draw_board(board, window, x_img, o_img, margin)
+
     button_names = ["UP", "RIGHT", "DOWN", "LEFT", "SELECT"]
     control_buttons = draw_control_buttons(button_names, btn_w, btn_h, gap, window_w, window_h)
 
     font = pygame.font.SysFont('arial', 20)
     text = font.render('ESC to quit, SPACE for start/stop timestamps', True, WHITE)
-    textRect = text.get_rect()
-    textRect.bottomright = (window_w-10, window_h-10)
+    text_rect = text.get_rect()
+    text_rect.bottomright = (window_w-10, window_h-10)
 
     keyboard = Controller()
     NEW_COMMAND = pygame.USEREVENT + 1
@@ -74,8 +82,9 @@ def main(output_file):
         for name in button_names:
             control_buttons[name].update(current_time)
         window.fill(BLACK)
-        window.blit(text, textRect)
+        window.blit(text, text_rect)
         draw_game_grid(window, line_width, margin)
+        draw_board(board, window, x_img, o_img, margin)
         for name in button_names:
             control_buttons[name].draw(window)
         pygame.display.update()
