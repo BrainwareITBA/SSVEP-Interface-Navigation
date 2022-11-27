@@ -2,31 +2,24 @@ import sys
 import pygame
 from datetime import datetime
 from utils.constants import *
-from utils.time_functions import *
-from gui.Rectangle import Rectangle
+from gui.gui_utils import *
 
 
 def main(output_file):
 
     pygame.init()
-    window = pygame.display.set_mode((0, 0))
+    window = pygame.display.set_mode((1500, 500))
     pygame.display.set_caption('Brainware Games')
     pygame.display.set_icon(pygame.image.load('resources/logo.png'))
 
     btn_w = 100
     btn_h = 100
     gap = 50
-    window_w = window.get_width()
+    window_w = window.get_width() * 3/2
     window_h = window.get_height()
 
-    current_time = pygame.time.get_ticks()
-    delays = get_delays()
-
-    rect1 = Rectangle(RED, (window_w/2-btn_w/2, window_h/2-(btn_h*3/2+gap), btn_w, btn_h), current_time, delays[0])
-    rect3 = Rectangle(RED, (window_w/2-(btn_w*3/2+gap), window_h/2-btn_h/2, btn_w, btn_h), current_time, delays[2])
-    rect2 = Rectangle(RED, (window_w/2-btn_w/2, window_h/2-btn_h/2, btn_w, btn_h), current_time, delays[1])
-    rect4 = Rectangle(RED, (window_w/2+(btn_w/2+gap), window_h/2-btn_h/2, btn_w, btn_h), current_time, delays[3])
-    rect5 = Rectangle(RED, (window_w/2-btn_w/2, window_h/2+(btn_h/2+gap), btn_w, btn_h), current_time, delays[4])
+    button_names = ["UP", "RIGHT", "DOWN", "LEFT", "SELECT"]
+    control_buttons = draw_control_buttons(button_names, btn_w, btn_h, gap, window_w, window_h)
 
     font = pygame.font.SysFont('arial', 20)
     text = font.render('ESC to quit, SPACE for start/stop timestamps', True, WHITE)
@@ -49,18 +42,12 @@ def main(output_file):
                     print(f"{s} @ {datetime.now()}", file=f)
                 count += 1
         current_time = pygame.time.get_ticks()
-        rect1.update(current_time)
-        rect2.update(current_time)
-        rect3.update(current_time)
-        rect4.update(current_time)
-        rect5.update(current_time)
+        for name in button_names:
+            control_buttons[name].update(current_time)
         window.fill(BLACK)
         window.blit(text, textRect)
-        rect1.draw(window)
-        rect2.draw(window)
-        rect3.draw(window)
-        rect4.draw(window)
-        rect5.draw(window)
+        for name in button_names:
+            control_buttons[name].draw(window)
         pygame.display.update()
 
 

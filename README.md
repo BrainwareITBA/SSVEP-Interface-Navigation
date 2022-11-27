@@ -26,7 +26,7 @@ Brain controlled game via SSVEP signal classification.
 
 > **WARNING**
 >
-> Pygame isn't updated for Python 3.11: If the previous step fails, install a pre-version with: ```pip install pygame --pre```
+> Pygame isn't updated for Python 3.11: If the previous step fails, install a pre-version ```pip install pygame --pre```
 
 ## Getting Started
 To start the game, run:
