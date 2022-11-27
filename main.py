@@ -10,7 +10,8 @@ from pynput.keyboard import Controller
 def main(output_file):
 
     pygame.init()
-    window = pygame.display.set_mode((1500, 500))
+    window = pygame.display.set_mode((1500, 600))
+    #window = pygame.display.set_mode((0,0))
     pygame.display.set_caption('Brainware Games')
     pygame.display.set_icon(pygame.image.load('resources/logo.png'))
 
@@ -19,6 +20,10 @@ def main(output_file):
     gap = 50
     window_w = window.get_width() * 3/2
     window_h = window.get_height()
+
+    line_width = 5
+    margin = 50
+    draw_game_grid(window, line_width, margin)
 
     button_names = ["UP", "RIGHT", "DOWN", "LEFT", "SELECT"]
     control_buttons = draw_control_buttons(button_names, btn_w, btn_h, gap, window_w, window_h)
@@ -70,6 +75,7 @@ def main(output_file):
             control_buttons[name].update(current_time)
         window.fill(BLACK)
         window.blit(text, textRect)
+        draw_game_grid(window, line_width, margin)
         for name in button_names:
             control_buttons[name].draw(window)
         pygame.display.update()

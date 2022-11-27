@@ -22,6 +22,21 @@ def draw_control_buttons(button_names: list[str], button_width: int, button_heig
     # Btn Left
     control_buttons[button_names[3]] = Rectangle(RED, (window_width/2-(button_width*3/2+gap), window_height/2-button_height/2, button_width, button_height), current_time, delays[3])
     # Btn Center
-    control_buttons[button_names[4]] = Rectangle(WHITE, (window_width/2-button_width/2, window_height/2-button_height/2, button_width, button_height), current_time, delays[4])
+    control_buttons[button_names[4]] = Rectangle(RED, (window_width/2-button_width/2, window_height/2-button_height/2, button_width, button_height), current_time, delays[4])
 
     return control_buttons
+
+
+def draw_game_grid(window: pygame.Surface, line_width: int, margin: int):
+    window_h = window.get_height()
+    game_size = window_h - (2 * margin)
+    # Vertical lines
+    pygame.draw.line(window, WHITE, (margin + game_size // 3, margin),
+                     (margin + game_size // 3, window_h - margin), line_width)
+    pygame.draw.line(window, WHITE, (margin + (game_size // 3) * 2, margin),
+                     (margin + (game_size // 3) * 2, window_h - margin), line_width)
+    # Horizontal lines
+    pygame.draw.line(window, WHITE, (margin, margin + game_size // 3), (window_h - margin, margin + game_size // 3),
+                     line_width)
+    pygame.draw.line(window, WHITE, (margin, margin + (game_size // 3) * 2),
+                     (window_h - margin, margin + (game_size // 3) * 2), line_width)
