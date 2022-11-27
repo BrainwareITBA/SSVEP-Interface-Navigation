@@ -4,7 +4,8 @@ from datetime import datetime
 from utils.constants import *
 from gui.gui_utils import *
 from game.game_controls import *
-
+from game.game_events import *
+from pynput.keyboard import Controller
 
 def main(output_file):
 
@@ -27,7 +28,11 @@ def main(output_file):
     textRect = text.get_rect()
     textRect.bottomright = (window_w-10, window_h-10)
 
+    keyboard = Controller()
+    NEW_COMMAND = pygame.USEREVENT + 1
+
     count = 0
+    last_idx = 1
     running = True
     while running:
         for event in pygame.event.get():
@@ -54,6 +59,11 @@ def main(output_file):
                         move_right()
                     case pygame.K_RETURN:
                         select()
+                    case pygame.K_n:
+                        pygame.event.post(pygame.event.Event(NEW_COMMAND)) # TODO: Trigger event when events.txt gets updated
+            elif event.type == NEW_COMMAND:
+                process_events(keyboard, last_idx)
+                last_idx += 1
 
         current_time = pygame.time.get_ticks()
         for name in button_names:
