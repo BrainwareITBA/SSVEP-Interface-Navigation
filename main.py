@@ -3,6 +3,7 @@ import pygame
 from datetime import datetime
 from utils.constants import *
 from gui.gui_utils import *
+from game.game_controls import *
 
 
 def main(output_file):
@@ -33,14 +34,27 @@ def main(output_file):
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                if count % 2 == 0:
-                    s = "Start"
-                else:
-                    s = "End"
-                with open(output_file, 'a') as f:
-                    print(f"{s} @ {datetime.now()}", file=f)
-                count += 1
+            if event.type == pygame.KEYDOWN:
+                match event.key:
+                    case pygame.K_SPACE:
+                        if count % 2 == 0:
+                            s = "Start"
+                        else:
+                            s = "End"
+                        with open(output_file, 'a') as f:
+                            print(f"{s} @ {datetime.now()}", file=f)
+                        count += 1
+                    case pygame.K_UP:
+                        move_up()
+                    case pygame.K_DOWN:
+                        move_down()
+                    case pygame.K_LEFT:
+                        move_left()
+                    case pygame.K_RIGHT:
+                        move_right()
+                    case pygame.K_RETURN:
+                        select()
+
         current_time = pygame.time.get_ticks()
         for name in button_names:
             control_buttons[name].update(current_time)
