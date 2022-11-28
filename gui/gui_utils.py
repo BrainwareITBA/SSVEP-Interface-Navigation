@@ -55,3 +55,10 @@ def highlight_tile(window: pygame.Surface, row: int, col: int, margin, color=Non
         window.blit(pygame.image.load('./resources/arrow.png'), (x, y))
     else:
         pygame.draw.rect(window, color, pygame.Rect(x, y, 60, 60))
+
+def end_message(window: pygame.Surface, message: str):
+    font = pygame.font.SysFont('arial', 25)
+    text = font.render(message, True, YELLOW)
+    new_text_rect = text.get_rect()
+    new_text_rect.topleft = (0, 0)
+    window.blit(text, new_text_rect)

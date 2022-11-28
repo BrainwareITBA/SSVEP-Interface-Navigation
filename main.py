@@ -30,31 +30,34 @@ def main(output_file):
     row = 1
     col = 1
     highlight_tile(window, row, col, margin)
-    #board = [[None, None, None], [None, None, None], [None, None, None]]
-    board = [[1, -1, None], [None, -1, None], [None, 1, None]]
+    board = [[None, None, None], [None, None, None], [None, None, None]]
     draw_board(board, window, x_img, o_img, margin)
 
     button_names = ["UP", "RIGHT", "DOWN", "LEFT", "SELECT"]
     control_buttons = draw_control_buttons(button_names, btn_w, btn_h, gap, window_w, window_h)
 
+    '''
     font = pygame.font.SysFont('arial', 20)
     text = font.render('ESC to quit, SPACE for start/stop timestamps', True, WHITE)
     text_rect = text.get_rect()
     text_rect.bottomleft = (0, window_h)
     window.blit(text, text_rect)
+    '''
 
     keyboard = Controller()
     NEW_COMMAND = pygame.USEREVENT + 1
 
     count = 0
+    turn = -1
     last_idx = 1
+    end_game = False
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and not end_game:
                 match event.key:
                     case pygame.K_SPACE:
                         if count % 2 == 0:
@@ -81,8 +84,9 @@ def main(output_file):
                         col = (col+1) % 3
                         highlight_tile(window, row, col, margin)
                     case pygame.K_RETURN:
-                        select()
-                        highlight_tile(window, row, col, margin, BLACK)
+                        selected, end_game = select(row, col, board, turn, window)
+                        if selected and not end_game:
+                            turn = (-1) * turn
                     case pygame.K_n:
                         pygame.event.post(pygame.event.Event(NEW_COMMAND)) # TODO: Trigger event when events.txt gets updated
             elif event.type == NEW_COMMAND:
