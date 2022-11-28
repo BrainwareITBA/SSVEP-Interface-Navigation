@@ -10,8 +10,8 @@ from pynput.keyboard import Controller
 def main(output_file):
 
     pygame.init()
-    window = pygame.display.set_mode((1500, 600))
-    #window = pygame.display.set_mode((0,0))
+    #window = pygame.display.set_mode((1500, 600))
+    window = pygame.display.set_mode((0,0))
     pygame.display.set_caption('Brainware Games')
     pygame.display.set_icon(pygame.image.load('resources/logo.png'))
 
@@ -25,12 +25,13 @@ def main(output_file):
     margin = 50
     draw_game_grid(window, line_width, margin)
 
-    o_img, x_img = pygame.image.load('./resources/o.png'),pygame.image.load('./resources/x.png')
+    o_img, x_img = pygame.image.load('./resources/o.png'), pygame.image.load('./resources/x.png')
 
-    row = 0
-    col = 0
-    # board = [[None, None, None], [None, None, None], [None, None, None]]
-    board = [[1, None, -1], [1, -1, None], [-1, 1, None]]
+    row = 1
+    col = 1
+    highlight_tile(window, row, col, margin)
+    #board = [[None, None, None], [None, None, None], [None, None, None]]
+    board = [[1, -1, None], [None, -1, None], [None, 1, None]]
     draw_board(board, window, x_img, o_img, margin)
 
     button_names = ["UP", "RIGHT", "DOWN", "LEFT", "SELECT"]
@@ -39,7 +40,8 @@ def main(output_file):
     font = pygame.font.SysFont('arial', 20)
     text = font.render('ESC to quit, SPACE for start/stop timestamps', True, WHITE)
     text_rect = text.get_rect()
-    text_rect.bottomright = (window_w-10, window_h-10)
+    text_rect.bottomleft = (0, window_h)
+    window.blit(text, text_rect)
 
     keyboard = Controller()
     NEW_COMMAND = pygame.USEREVENT + 1
@@ -63,15 +65,24 @@ def main(output_file):
                             print(f"{s} @ {datetime.now()}", file=f)
                         count += 1
                     case pygame.K_UP:
-                        move_up()
+                        highlight_tile(window, row, col, margin, BLACK)
+                        row = (row-1) % 3
+                        highlight_tile(window, row, col, margin)
                     case pygame.K_DOWN:
-                        move_down()
+                        highlight_tile(window, row, col, margin, BLACK)
+                        row = (row+1) % 3
+                        highlight_tile(window, row, col, margin)
                     case pygame.K_LEFT:
-                        move_left()
+                        highlight_tile(window, row, col, margin, BLACK)
+                        col = (col-1) % 3
+                        highlight_tile(window, row, col, margin)
                     case pygame.K_RIGHT:
-                        move_right()
+                        highlight_tile(window, row, col, margin, BLACK)
+                        col = (col+1) % 3
+                        highlight_tile(window, row, col, margin)
                     case pygame.K_RETURN:
                         select()
+                        highlight_tile(window, row, col, margin, BLACK)
                     case pygame.K_n:
                         pygame.event.post(pygame.event.Event(NEW_COMMAND)) # TODO: Trigger event when events.txt gets updated
             elif event.type == NEW_COMMAND:
@@ -81,8 +92,7 @@ def main(output_file):
         current_time = pygame.time.get_ticks()
         for name in button_names:
             control_buttons[name].update(current_time)
-        window.fill(BLACK)
-        window.blit(text, text_rect)
+        window.fill(BLACK, (window.get_width() // 2 + margin, 0, window.get_width() // 2, window.get_height())) # refresh only command buttons side
         draw_game_grid(window, line_width, margin)
         draw_board(board, window, x_img, o_img, margin)
         for name in button_names:

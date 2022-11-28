@@ -44,4 +44,14 @@ def draw_board(board: list[list[int]], window: pygame.Surface, x_img: pygame.Sur
     for y in range(3):
         for x in range(3):
             picker = lambda xx,oo: xx if board[y][x] == -1 else oo if board[y][x] == +1 else pygame.Surface((0, 0))
-            window.blit(picker(x_img, o_img), (x * (game_size // 3) + margin + (game_size // 12 + 5), y * (game_size // 3) + margin + (game_size // 12 + 5)))
+            window.blit(picker(x_img, o_img), (x * (game_size // 3) + margin + (game_size // 9), y * (game_size // 3) + margin + (game_size // 9)))
+
+def highlight_tile(window: pygame.Surface, row: int, col: int, margin, color=None):
+    window_h = window.get_height()
+    game_size = window_h - (2 * margin)
+    x = col * (game_size // 3) + margin
+    y = row * (game_size // 3) + margin
+    if color == None:
+        window.blit(pygame.image.load('./resources/arrow.png'), (x, y))
+    else:
+        pygame.draw.rect(window, color, pygame.Rect(x, y, 60, 60))
