@@ -16,3 +16,6 @@ def get_periods():
 def get_delays():
     delays = list(map(lambda p: p * 1000 / 2, get_periods()))
     return delays
+
+def get_delay(freq):
+    return 1/freq * 1000 / 2
