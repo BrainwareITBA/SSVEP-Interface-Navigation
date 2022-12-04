@@ -36,14 +36,6 @@ def main(output_file):
     button_names = ["UP", "RIGHT", "DOWN", "LEFT", "SELECT"]
     control_buttons = draw_control_buttons(button_names, btn_w, btn_h, gap, window_w, window_h)
 
-    '''
-    font = pygame.font.SysFont('arial', 20)
-    text = font.render('ESC to quit, SPACE for start/stop timestamps', True, WHITE)
-    text_rect = text.get_rect()
-    text_rect.bottomleft = (0, window_h)
-    window.blit(text, text_rect)
-    '''
-
     keyboard = Controller()
     NEW_COMMAND = pygame.USEREVENT + 1
 

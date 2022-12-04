@@ -23,7 +23,6 @@ Brain controlled game via SSVEP signal classification.
         pip install -r requirements.txt
         ```
 
-
 > **WARNING**
 >
 > Pygame isn't updated for Python 3.11: If the previous step fails, install a pre-version ```pip install pygame --pre```
@@ -31,12 +30,13 @@ Brain controlled game via SSVEP signal classification.
 ## Getting Started
 To start the game, run:
 ```
-python ./main.py <filename>
+python ./main.py [filename]
 ```
-
-Filename is optional. If omitted, the default is `output-%d%m%Y-%H%M%S.txt`
 
 To change the configuration, go to `config.json`
 
 ### Monitor refresh rate 
 * In Windows: https://support.microsoft.com/en-us/windows/change-your-display-refresh-rate-in-windows-c8ea729e-0678-015c-c415-f806f04aae5a
+
+### Lab Streaming Layer
+* GitHub repo: https://github.dev/chkothe/pylsl
