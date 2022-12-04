@@ -1,6 +1,4 @@
-# import os
 import sys
-import time
 import pygame
 from datetime import datetime
 from utils.constants import *
@@ -9,7 +7,7 @@ from game.game_controls import *
 from game.game_events import *
 from threading import Thread
 from pynput.keyboard import Controller
-from signal_processing.signal_filtering import *
+from signal_processing.signal_handlers import *
 
 def main(output_file):
 
