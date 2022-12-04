@@ -1,17 +1,21 @@
+# import os
 import sys
+import time
 import pygame
 from datetime import datetime
 from utils.constants import *
 from gui.gui_utils import *
 from game.game_controls import *
 from game.game_events import *
+from threading import Thread
 from pynput.keyboard import Controller
+from signal_processing.signal_filtering import *
 
 def main(output_file):
 
     pygame.init()
-    #window = pygame.display.set_mode((1500, 600))
-    window = pygame.display.set_mode((0,0))
+    window = pygame.display.set_mode((1500, 700))
+    #window = pygame.display.set_mode((0,0))
     pygame.display.set_caption('Brainware Games')
     pygame.display.set_icon(pygame.image.load('resources/logo.png'))
 
@@ -38,6 +42,9 @@ def main(output_file):
 
     keyboard = Controller()
     NEW_COMMAND = pygame.USEREVENT + 1
+
+    thread = Thread(target=signal_filtering, daemon=True)
+    thread.start()
 
     count = 0
     turn = -1
