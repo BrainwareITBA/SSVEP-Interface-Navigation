@@ -57,8 +57,8 @@ def highlight_tile(window: pygame.Surface, row: int, col: int, margin, color=Non
         pygame.draw.rect(window, color, pygame.Rect(x, y, 60, 60))
 
 def end_message(window: pygame.Surface, message: str):
-    font = pygame.font.SysFont('arial', 25)
+    font = pygame.font.Font('./resources/fonts/upheavtt.ttf', 30)
     text = font.render(message, True, YELLOW)
     new_text_rect = text.get_rect()
-    new_text_rect.topleft = (0, 0)
+    new_text_rect.topleft = (5, 5)
     window.blit(text, new_text_rect)
