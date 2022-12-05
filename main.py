@@ -12,8 +12,8 @@ from signal_processing.signal_handlers import *
 def main(output_file):
 
     pygame.init()
-    window = pygame.display.set_mode((1500, 700))
-    #window = pygame.display.set_mode((0,0))
+    #window = pygame.display.set_mode((1500, 700))
+    window = pygame.display.set_mode((0,0))
     pygame.display.set_caption('Brainware Games')
     pygame.display.set_icon(pygame.image.load('resources/logo.png'))
 
@@ -41,8 +41,8 @@ def main(output_file):
     keyboard = Controller()
     NEW_COMMAND = pygame.USEREVENT + 1
 
-    thread = Thread(target=signal_filtering, daemon=True)
-    thread.start()
+    signal_thread = Thread(target=signal_filtering, args=(NEW_COMMAND,channels), daemon=True)
+    signal_thread.start()
 
     count = 0
     turn = -1
@@ -84,7 +84,7 @@ def main(output_file):
                         selected, end_game = select(row, col, board, turn, window)
                         if selected and not end_game:
                             turn = (-1) * turn
-                    case pygame.K_n:
+                    case pygame.K_TAB:
                         pygame.event.post(pygame.event.Event(NEW_COMMAND)) # TODO: Trigger event when events.txt gets updated
             elif event.type == NEW_COMMAND:
                 process_events(keyboard, last_idx)
