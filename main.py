@@ -39,14 +39,11 @@ def main(output_file):
     control_buttons = draw_control_buttons(button_names, btn_w, btn_h, gap, window_w, window_h)
 
     keyboard = Controller()
-    NEW_COMMAND = pygame.USEREVENT + 1
-
-    signal_thread = Thread(target=signal_filtering, args=(NEW_COMMAND,channels), daemon=True)
+    signal_thread = Thread(target=signal_filtering, args=(keyboard,channels), daemon=True)
     signal_thread.start()
 
     count = 0
     turn = -1
-    last_idx = 1
     end_game = False
     running = True
     while running:
@@ -84,11 +81,6 @@ def main(output_file):
                         selected, end_game = select(row, col, board, turn, window)
                         if selected and not end_game:
                             turn = (-1) * turn
-                    case pygame.K_TAB:
-                        pygame.event.post(pygame.event.Event(NEW_COMMAND)) # TODO: Trigger event when events.txt gets updated
-            elif event.type == NEW_COMMAND:
-                process_events(keyboard, last_idx)
-                last_idx += 1
 
         current_time = pygame.time.get_ticks()
         for name in button_names:

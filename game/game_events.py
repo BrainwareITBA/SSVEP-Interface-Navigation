@@ -1,13 +1,10 @@
-import linecache
 from pynput.keyboard import Key, Controller
 
 def trigger_commands(keyboard: Controller, key: Key):
     keyboard.press(key)
     keyboard.release(key)
 
-def process_events(keyboard: Controller, last_idx: int):
-    content = linecache.getline('events.txt', last_idx)
-    content = content.strip('\n\r')
+def process_events(keyboard: Controller, content: str):
     match content:
         case "UP":
             trigger_commands(keyboard, Key.up)

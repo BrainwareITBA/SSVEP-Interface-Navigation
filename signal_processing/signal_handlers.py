@@ -1,14 +1,14 @@
 import numpy as np
 import scipy.signal as signal
 import matplotlib.pyplot as plt
+from game.game_events import process_events
 from signal_processing.receive_data import *
 from utils.time_functions import get_freqs
 from utils.constants import *
 
-import pygame
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Controller
 
-def signal_filtering(custom_event, channels_to_use=channels):
+def signal_filtering(keyboard: Controller, channels_to_use=channels):
     print("Signal filtering...")
     original_freqs = get_freqs()
     commands =  {   original_freqs[0]: "UP",
@@ -38,9 +38,12 @@ def signal_filtering(custom_event, channels_to_use=channels):
         for idx in range(len(channels_to_use)):
             freq = freq + f[evoked_potentials[idx].argmax()]
         freq /= len(channels_to_use)
+        '''
         with open("events.txt", 'a') as f:
             print(commands[find_nearest(original_freqs, freq)], file=f)
-        pygame.event.post(pygame.event.Event(custom_event))
+        '''
+        command = commands[find_nearest(original_freqs, freq)]
+        process_events(keyboard, command)
 
 
 def write_signal_to_file():
